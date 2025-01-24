@@ -175,6 +175,40 @@ public class OpenWeather {
     }
 
     /**
+     * Fetches the weather data for a given city from the OpenWeatherMap API.
+     * It retrieves the temperature, humidity, wind speed, description, latitude, longitude, and current time.
+     *
+     * @param cityName the name of the city
+     * @return a JSONObject containing the weather data
+     */
+    public JSONObject fetchWeatherData(String cityName) {
+        String urlString = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + API;
+        JSONObject json = null;
+
+        try {
+            URI uri = new URI(urlString);
+            URL url = uri.toURL();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuilder result = new StringBuilder();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                result.append(line);
+            }
+            rd.close();
+
+            json = new JSONObject(result.toString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return json;
+    }
+
+    /**
      * The main method to test the OpenWeather class.
      *
      * @param args the command-line arguments

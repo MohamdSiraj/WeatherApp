@@ -206,6 +206,26 @@ public class Controlars extends Application {
 
         });
         
+        historyComboBox.setOnAction(e -> {
+            location = historyComboBox.getValue();
+            cityNameLabel.setText(location);
+            OpenWeather openWeather = new OpenWeather(location);
+            timeValueLabel.setText(openWeather.getCurrentTime());
+            cityTime = openWeather.getCurrentTime();
+            setBackgroundBasedOnTime(cityTime, root);
+            weatherdescription = openWeather.getDescription();
+            double temperatureDouble = Double.parseDouble(openWeather.getTemperature()) - 273.15;
+            temperature = String.format("%.2f", temperatureDouble);
+            double fehraheitDouble = (temperatureDouble * 9/5) + 32;
+            fehraheitTemp = String.format("%.2f", fehraheitDouble);
+            humidity = openWeather.getHumidity();
+            windSpeed = openWeather.getWindSpeed();
+            hoursTemp = openWeather.getHoursTemp(); 
+            hoursHumidity = openWeather.getHoursHumidity();
+            hoursWindSpeed = openWeather.getHoursWindSpeed();
+            setWeatherData(weatherdescription, temperature, windSpeed, humidity, weatherLabel, temperatureValueLabel, windSpeedValueLabel, humidityValueLabel);
+            setForecastData(hoursTemp, hoursHumidity, hoursWindSpeed, mondayLabel, tuesdayLabel, wednesdayLabel, sunIcon, cloudyIcon2, cloudRainIcon, netx1TemperatureLabel, next2TemperatureLabel, next3TemperatureLabel);
+        });
 
 
         middleSection.getChildren().addAll(cloudyIcon, locationInput, searchButton);
@@ -270,7 +290,6 @@ public class Controlars extends Application {
                 temperatureValueLabel.setText(fehraheitTemp);
             }
 });
-        
         
         
         
